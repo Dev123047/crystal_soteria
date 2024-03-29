@@ -50,6 +50,8 @@ All the data is stored in form of a JSON string, AES encrypted with the password
 
 The AES ecrypted string is decrypted then parsed and then stored in the variable that is used to access the contents.
 
+--> Data in decrypted form for `test_user1` has been added in `files.json`
+
 *NOTE : One may change the structure to suit their uses BUT all scripts are written to suit this particular format of storage.*
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
