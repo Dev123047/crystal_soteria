@@ -26,6 +26,8 @@ Now that you have the knowledge of its working, lets look at the commands availi
 
 5) cat : Catenates the content of the given file *provided its present in the current working directory*.
 
+6) mkdir [directory_name] : Creates a directory in the current working directory.
+
 Test User credentials :
 1) Username : test_user1
 2) Password : testpassone
