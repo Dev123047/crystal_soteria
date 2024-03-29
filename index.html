@@ -56,6 +56,12 @@
                     this.echo(arrobj[i])
                 }
             }
+            function toDictionary(keys, values) {
+                for(let i=0; i<keys.length;i++) {
+                    dict[keys[i]]=values[i]
+                }
+                return dict
+            }
             $('body').bind('keydown', function(e) {
                 if (event.keyCode==13 && initialized == "False") {
                     alert('Enter command "initialize".')
@@ -169,6 +175,22 @@
                         }
                     } catch(err) {
                         this.error(not_authorized)
+                    }
+                },
+                mkdir: function(dname) {
+                    if (dname in current_data[cwd]) {
+                        this.echo(file_exists)
+                    } else {
+                        data = current_data
+                        data[cwd].splice(0,0,(cwd+"/"+dname))
+                        var keys = Object.keys(data)
+                        var values = Object.values(data)
+                        keys.splice(keys.indexOf(cwd)+1,0,(cwd+"/"+dname))
+                        values.splice(keys.indexOf(cwd)+1,0,[])
+                        data = toDictionary(keys,values)
+                        window[current_username] = encryptAES(JSON.stringify(data),current_password)
+                        current_data = JSON.parse(decryptAES(window[current_username],current_password))
+                        this.echo(dir_made)
                     }
                 }
             },{
