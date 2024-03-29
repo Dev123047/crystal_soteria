@@ -60,3 +60,26 @@ function cat(file) {
         return console.log(current_data[cwd][(current_data[cwd].length)-1][file])
     }
 }
+var dict = {}
+function mkdir(dname) {
+    if (dname in current_data[cwd]) {
+        console.log(file_exists)
+    } else {
+        data = current_data
+        data[cwd].splice(0,0,(cwd+"/"+dname))
+        var keys = Object.keys(data)
+        var values = Object.values(data)
+        keys.splice(keys.indexOf(cwd)+1,0,(cwd+"/"+dname))
+        values.splice(keys.indexOf(cwd)+1,0,[])
+        data = toDictionary(keys,values)
+        window[current_username] = encryptAES(JSON.stringify(data),current_password)
+        current_data = JSON.parse(decryptAES(window[current_username],current_password))
+        console.log(dir_made)
+    }
+}
+function toDictionary(keys, values) {
+    for(let i=0; i<keys.length;i++) {
+        dict[keys[i]]=values[i]
+    }
+    return dict
+}
