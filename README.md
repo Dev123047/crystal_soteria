@@ -22,7 +22,7 @@ Now that you have the knowledge of its working, lets look at the commands availi
 
 3) cd [dir] : This command is used to change the current working directory. If ".." is used, it goes the parent directory. If no value is provided, it goes the home directory of the user. Otherwise, it goes to the subdirectory *provided its present in the current working directory*.
 
-4) getwcwd : Returns the current working directory.
+4) getcwd : Returns the current working directory.
 
 5) cat : Catenates the content of the given file *provided its present in the current working directory*.
 
