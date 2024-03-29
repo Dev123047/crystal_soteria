@@ -1,0 +1,179 @@
+<html>
+    <head>
+        <title>Crystal Soteria</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.terminal/css/jquery.terminal.min.css"/>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js" ></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery.terminal/js/jquery.terminal.min.js" ></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery.terminal/js/forms.js" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/pbkdf2.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" defer></script>
+        <script src="endcrypt.js" defer></script>
+        <script src="secure_login.js" defer></script>
+        <script src="file_access.js" defer></script>
+        <script src="errors.js" defer></script>
+        <script src="antierrors.js" defer></script>
+        <script src ="user_data.js" defer></script>
+    </head>
+    <body oncontextmenu="return disableRightClick()">
+        <style>
+            .terminal {
+                --color: rgba(0, 200, 0, 0.99);
+                --glow: 1;
+            } 
+            .cmd-prompt {
+                --color: blue;
+            }   
+            .cmd{
+                --color: red;
+            }   
+        </style>
+        <script>
+            var initialized = "False";
+            var current_password = "";
+            var current_username = "";
+            var current_data = "";
+            var d = cwd;
+            var x = '';
+            var out1 = [];
+            var cwd = '';
+            function disableRightClick() {  
+                return false; 
+            }
+            function lsv2(d=cwd) {
+                const out0 = current_data[d];
+                for(let i=0; i<(out0.length-1); i++) {
+                    x = out0[i]
+                    out1.push(x)
+                    if (x in current_data) {
+                        lsv2(d=x)
+                    }
+                }
+                return
+            }
+            function enlist(arrobj) {
+                for(let i=0;i<arrobj.length;i++) {
+                    this.echo(arrobj[i])
+                }
+            }
+            $('body').bind('keydown', function(e) {
+                if (event.keyCode==13 && initialized == "False") {
+                    alert('Enter command "initialize".')
+                    initialized = "True"
+                    return false;
+                }
+            });
+            $('body').terminal({
+                initialize: async function(){
+                    await this.echo("[[g; blue; black]Initializing] CrystalSoteriaOS...",{typing: true, delay: 50});
+                    await this.echo("[[g; blue; black]Initializing] endcrypt...",{typing: true, delay: 50});
+                    await this.echo("[[g; blue; black]Initializing] secure_login...",{typing: true, delay: 50});
+                    await this.echo("[[g; blue; black]Initializing] errors...",{typing: true, delay: 50});
+                    await this.echo("[[g; blue; black]Initializing] antierrors...",{typing: true, delay: 50});
+                    await this.echo("[[g; blue; black]Initializing] file_access...",{typing: true, delay: 50});
+                    await this.echo("Booting...",{typing: true, delay: 50});
+                    await this.echo("[[g; black; purple]#########################]",{typing: true, delay: 75});
+                    await this.echo("[[g; blue; black;]Boot complete! (You may now use the interface)]",{typing: true, delay: 50});
+                },
+                su: async function(user) {
+                    if (user === current_username) {
+                        this.echo('Logged in as same user : '+current_username);
+                    } else if (user in hashed) {
+                        current_username = user
+                        this.echo(user_found);
+                        this.read("Enter password : ").then(input_password => {
+                        if (CryptoJS.PBKDF2(input_password, salt, {keySize: 512 / 32,iterations: 1000}).toString(CryptoJS.enc.Base64) === hashed[user]) {
+                            this.echo(password_matched);
+                            current_password = input_password;
+                            current_data = JSON.parse(decryptAES(window[current_username],current_password));
+                            cwd = "/"+current_username;
+                            input_password = '';
+                            input_username = '';
+                            this.echo(logged_in);
+                        } else {
+                            this.error(password_incorret);
+                            this.error(login_aborted);
+                        }})
+                    } else {
+                        this.error(user_not_found)
+                    }
+                },
+                ls: async function(arg) {
+                    try {
+                        out0 = current_data[cwd]
+                        out1 = []
+                        if (arg === "td") {
+                            for(let i=0; i<(out0.length)-1; i++) {
+                                out1.push(out0[i]);
+                            }
+                            for(let i=0;i<out1.length;i++) {
+                                this.echo(out1[i])
+                            }
+                        } else if (arg == "al") {
+                            lsv2()
+                            for(let i=0;i<out1.length;i++) {
+                                this.echo(out1[i])
+                            }
+                        }
+                    } catch(err) {
+                        this.error(not_authorized)
+                    }
+                },
+                cd: function(dir) {
+                    try {
+                        if (dir === "..") {
+                            const dirs = Object.keys(current_data)
+                            for (let i=0; i<(dirs.length);i++) {
+                                if (current_data[dirs[i]].includes(cwd)){
+                                    cwd = dirs[i]
+                                    this.echo(dir_changed)
+                                } else {
+                                    continue
+                                }
+                            }
+                        } else if(dir === "") {
+                            cwd = Object.keys(current_data)[0]
+                        } else {
+                            requested_dir = cwd+"/"+dir
+                            if (ls().includes(requested_dir)) {
+                                this.echo(dir_found)
+                                cwd = requested_dir;
+                                this.echo(dir_changed)
+                            } else {
+                                this.error(dir_not_found)
+                            }
+                        }
+                    } catch(err) {
+                        this.error(not_authorized)
+                    }
+                },
+                getcwd: function() {
+                    try {
+                        this.echo(cwd)
+                    } catch(err) {
+                        this.error(not_authorized)
+                    }
+                },
+                cat: function(file) {
+                    try {
+                        if (file in current_data[cwd][(current_data[cwd].length)-1]) {
+                            this.echo(file_found)
+                            if(current_data[cwd][(current_data[cwd].length)-1][file] != '') {
+                                this.echo('[[g; black; yellow;]'+file+']')
+                                this.echo(current_data[cwd][(current_data[cwd].length)-1][file])
+                            } else {
+                                this.error(not_authorized)
+                            }
+                        } else {
+                            this.echo(file_not_found)
+                        }
+                    } catch(err) {
+                        this.error(not_authorized)
+                    }
+                }
+            },{
+                greetings: "Press ENTER to continue..."
+            });
+        </script>
+    </body>
+</html>

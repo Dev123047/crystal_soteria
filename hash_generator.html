@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+<script>
+    username = prompt("Enter username : ")
+    const salt = "oOcCVsMWUqBD5W38RGPl8g=";
+    var key512Bits1000Iterations = CryptoJS.PBKDF2(username, salt, {keySize: 512 / 32,iterations: 1000}).toString(CryptoJS.enc.Base64);
+    console.log(key512Bits1000Iterations)
+</script>
+</head>
+<body>
+</body>
+</html>
