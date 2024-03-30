@@ -172,7 +172,7 @@
                                 this.error(not_authorized)
                             }
                         } else {
-                            this.echo(file_not_found)
+                            this.error(file_not_found)
                         }
                     } catch(err) {
                         this.error(not_authorized)
@@ -181,7 +181,7 @@
                 mkdir: function(dname) {
                     try {
                         if (current_data[cwd].includes(cwd+"/"+dname)) {
-                            this.echo(dir_exists)
+                            this.error(dir_exists)
                         } else {
                             data = current_data
                             data[cwd].splice(0,0,(cwd+"/"+dname))
@@ -202,7 +202,7 @@
                     try {
                         if (fname.slice(-4) === '.txt') {
                             if (Object.keys(current_data[cwd].slice(-1)[0]).includes(fname)) {
-                                this.echo(file_exists)
+                                this.error(file_exists)
                             } else {
                                 data = current_data
                                 data[cwd].splice(-2,0,(cwd+"/"+fname))
@@ -216,7 +216,7 @@
                         } else {
                             fname = fname+".txt"
                             if (Object.keys(current_data[cwd].slice(-1)[0]).includes(fname)) {
-                                this.echo(file_exists)
+                                this.error(file_exists)
                             } else {
                                 data = current_data
                                 data[cwd].splice(-2,0,(cwd+"/"+fname))
@@ -229,7 +229,7 @@
                             }
                         }
                     } catch(err) {
-                        this.echo(not_authorized)
+                        this.error(not_authorized)
                     }
                 }
             },{
