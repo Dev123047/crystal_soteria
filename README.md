@@ -17,7 +17,8 @@ Index
 Introduction :
 
 This project can be regarded as a simple "file management system". One might argue that this "Linux written in JavaScript". To some extent that is true(due to the GNU commands), but I prefer to call it the prior.
-This project is completely written in JavaScript. It uses HTML and jQuery.Terminal *just* to let us interact with the scripts.
+This project is completely written in JavaScript. It uses HTML and jQuery.Terminal *just* to let us interact with the scripts. 
+*Note: The HTML percentage might be seeming too much for the previous statement, but most of the HTML file is a JS Script.*
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
