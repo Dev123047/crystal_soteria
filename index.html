@@ -43,6 +43,19 @@
             function disableRightClick() {  
                 return false; 
             }
+            function ls(arg = "al") {
+                out0 = current_data[cwd]
+                out1 = []
+                if (arg === "td") {
+                    for(let i=0; i<(out0.length)-1; i++) {
+                        out1.push(out0[i]);
+                    }
+                    return out1
+                } else if (arg == "al") {
+                    lsv2()
+                    return out1
+                }
+            }
             function lsv2(d=cwd) {
                 const out0 = current_data[d];
                 for(let i=0; i<(out0.length-1); i++) {
