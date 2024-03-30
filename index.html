@@ -12,6 +12,8 @@
         <script src="errors.js" defer></script>
         <script src="antierrors.js" defer></script>
         <script src ="user_data.js" defer></script>
+        <script src ="secure_login.js" defer></script>
+        <script src ="file_access.js" defer></script>
     </head>
     <body oncontextmenu="return disableRightClick()">
         <style>
@@ -36,25 +38,8 @@
             var out1 = [];
             var cwd = '';
             var dict = {};
-            var hashed = {
-                'test_user1' : 'vqntEjWGio2yhR3wN/0QmF8xEnPBo4jya4wS5c39n8/pyrx0Z1VlRDAVe1vw0MQhw35EwartPhjgIodpNEIIVA=='
-            }
-            const salt = "oOcCVsMWUqBD5W38RGPl8g="
             function disableRightClick() {  
                 return false; 
-            }
-            function ls(arg = "al") {
-                out0 = current_data[cwd]
-                out1 = []
-                if (arg === "td") {
-                    for(let i=0; i<(out0.length)-1; i++) {
-                        out1.push(out0[i]);
-                    }
-                    return out1
-                } else if (arg == "al") {
-                    lsv2()
-                    return out1
-                }
             }
             function lsv2(d=cwd) {
                 const out0 = current_data[d];
@@ -157,7 +142,7 @@
                             cwd = Object.keys(current_data)[0]
                         } else {
                             requested_dir = cwd+"/"+dir
-                            if (ls(cwd).includes(requested_dir)) {
+                            if (ls().includes(requested_dir)) {
                                 this.echo(dir_found)
                                 cwd = requested_dir;
                                 this.echo(dir_changed)
