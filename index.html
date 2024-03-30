@@ -144,7 +144,7 @@
                             cwd = Object.keys(current_data)[0]
                         } else {
                             requested_dir = cwd+"/"+dir
-                            if (ls().includes(requested_dir)) {
+                            if (ls(cwd).includes(requested_dir)) {
                                 this.echo(dir_found)
                                 cwd = requested_dir;
                                 this.echo(dir_changed)
