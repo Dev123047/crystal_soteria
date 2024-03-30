@@ -78,6 +78,8 @@ Now that you have the knowledge of its working, lets look at the commands availi
 
 6) mkdir [directory_name] : Creates a directory in the current working directory. *Note : All the new directories made with this command wont be retained when the window/tab is refreshed, other than the ones pre-made.*
 
+7) touch [file_name] : Creates a (txt *only yet*) file in the current working directory. *Note : All the new files made with this command wont be retained when the window/tab is refreshed, other than the ones pre-made.*
+
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Test User credentials :
