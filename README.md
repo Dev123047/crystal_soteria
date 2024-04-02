@@ -78,7 +78,7 @@ Now that you have the knowledge of its working, lets look at the commands availi
 
 4) getcwd : Returns the current working directory.
 
-5) cat : Catenates the content of the given file *provided its present in the current working directory*.
+5) cat [file_name] : Catenates the content of the given file *provided its present in the current working directory*.
 
 6) mkdir [directory_name] : Creates a directory in the current working directory. *Note : All the new directories made with this command wont be retained when the window/tab is refreshed, other than the ones pre-made.*
 
