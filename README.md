@@ -33,7 +33,11 @@ The main motive behind this project was "nothing on the server side", what it ba
 
 Purpose(s):
 
-This project can be freely used for CTF's or Online Puzzles. It can certainly also be used as a unique interface for CTFs and web based riddles.
+This project can be used for many purposes. I intended it for first and foremost 2 : 
+
+1) Linux-on-the go : This project can be very useful in simulating the very basic commands (until now) of Linux and using it on-the-go (without the need of downloading anything). Thus it may help in tinkering the interest for the same.
+
+2) For CTF's or Online Puzzles : It can certainly also be used as a unique interface for CTFs and web based riddles.
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
