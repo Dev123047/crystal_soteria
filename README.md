@@ -19,8 +19,8 @@ Index
 
 Introduction :
 
-This project can be regarded as a simple "file management system". One might argue that this "Linux written in JavaScript". To some extent that is true(due to the GNU commands), but I prefer to call it the prior.
-This project is completely written in JavaScript. It uses HTML and jQuery.Terminal *just* to let us interact with the scripts. 
+This project can be regarded as a simple "file management system".
+This project is completely written in JavaScript. It uses HTML and jQuery.Terminal. 
 *Note: The HTML percentage might be seeming too much for the previous statement, but most of the HTML file is a JS Script.*
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -33,18 +33,14 @@ The main motive behind this project was "nothing on the server side", what it ba
 
 Purpose(s):
 
-This project can be used for many purposes. I intended it for first and foremost 2 : 
-
-1) Linux-on-the go : This project can be very useful in simulating the very basic commands (until now) of Linux and using it on-the-go (without the need of downloading anything). Thus it may help in tinkering the interest for the same.
-
-2) For CTF's or Online Puzzles : It can certainly also be used as a unique interface for CTFs and web based riddles.
+This project can be freely used for CTF's or Online Puzzles. It can certainly also be used as a unique interface for CTFs and web based riddles.
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Security : 
 
 You might think that that might compromise the security of the files, but it uses SHA3 for logging in and AES for the encryption and decryption of the files.
-The files *sort of* use LUKS like encryption. For example, if you login to "User1", it decrypts the content(using the input password) and stores all the data of that particular user in a separate variable(say "data"). When you switch to another user "User2", it decrypts the data of that user and stores the decrypted data in "data".
+The files use LUKS like encryption. For example, if you login to "User1", it decrypts the content(using the input password) and stores all the data of that particular user in a separate variable(say "data"). When you switch to another user "User2", it decrypts the data of that user and stores the decrypted data in "data".
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -68,7 +64,7 @@ To add new users, you may use the provided `hash_generator.html` to generate the
 
 Commands :
 
-Now that you have the knowledge of its working, lets look at the commands availible.
+Now that you have the knowledge of its working, let us look at some of the commands availible:
 
 1) su [username] : This command is used to login to a user. After entering, say "su User1", it prompts you for the password of that user, if the password is successfully authenticated it decrypts the data of that user and stores it in a variable.
 
@@ -80,9 +76,9 @@ Now that you have the knowledge of its working, lets look at the commands availi
 
 5) cat [file_name] : Catenates the content of the given file *provided its present in the current working directory*.
 
-6) mkdir [directory_name] : Creates a directory in the current working directory. *Note : All the new directories made with this command wont be retained when the window/tab is refreshed, other than the ones pre-made.*
+6) mkdir [directory_name] : Creates a directory in the current working directory. *Note : None of the new directories made with this command will be retained when the window/tab is refreshed, other than the ones pre-made.*
 
-7) touch [file_name] : Creates a (txt *only yet*) file in the current working directory. *Note : All the new files made with this command wont be retained when the window/tab is refreshed, other than the ones pre-made.*
+7) touch [file_name] : Creates a (txt *only yet*) file in the current working directory. *Note : None of the new files made with this command will be retained when the window/tab is refreshed, other than the ones pre-made.*
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
