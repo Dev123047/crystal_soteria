@@ -19,8 +19,8 @@ Index
 
 Introduction :
 
-This project can be regarded as a simple "file management system".
-This project is completely written in JavaScript. It uses HTML and jQuery.Terminal. 
+This project can be regarded as a simple "file management system" with which you interact through simple commands *currently on a terminal like interface*.
+This project is completely written in JavaScript. It uses HTML and jQuery.Terminal.
 *Note: The HTML percentage might be seeming too much for the previous statement, but most of the HTML file is a JS Script.*
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
