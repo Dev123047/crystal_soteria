@@ -1,6 +1,7 @@
 //feels like thats a LOT of vars for a "secure" system lol 
 var hashed = {
-    'test_user1' : 'vqntEjWGio2yhR3wN/0QmF8xEnPBo4jya4wS5c39n8/pyrx0Z1VlRDAVe1vw0MQhw35EwartPhjgIodpNEIIVA=='
+    'localhost_test_user1' : 'vqntEjWGio2yhR3wN/0QmF8xEnPBo4jya4wS5c39n8/pyrx0Z1VlRDAVe1vw0MQhw35EwartPhjgIodpNEIIVA==',
+    'host1_test_user2' : 'NlNTUeuKMJofSOTJv3C/ZSxQWHMzjNRSud/0ydQOSbLCzxqDdj1w4WApn70D9eABsymx5a3DOQdNDwBczWOy3w=='
 }
 const salt = "oOcCVsMWUqBD5W38RGPl8g="
 var current_data = '';
