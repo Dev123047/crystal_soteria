@@ -54,7 +54,9 @@ All the data is stored in form of a JSON string, AES encrypted with the password
 
 The AES ecrypted string is decrypted then parsed and then stored in the variable that is used to access the contents.
 
---> Data in decrypted form for `test_user1` has been added in `files.json`
+The AES encrypted string is stored in a variable name in the format Host_Username. Example: localhost_test_user1 = "AES Encrypted Data"
+
+--> Data in decrypted form for two test users(in separate hosts) has been added in `files.json`
 
 *NOTE : One may change the structure to suit their uses BUT all scripts are written to suit this particular format of storage.*
 
@@ -63,6 +65,7 @@ The AES ecrypted string is decrypted then parsed and then stored in the variable
 Adding new users(Pre defined) :
 
 To add new users, you may use the provided `hash_generator.html` to generate the required hash and store it in `hashed` variable(defined in `index.html`) with the key as the username and the hash as the value to that key.
+
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -82,10 +85,13 @@ Now that you have the knowledge of its working, let us look at some of the comma
 
 6) mkdir [directory_name] : Creates a directory in the current working directory. *Note : None of the new directories made with this command will be retained when the window/tab is refreshed, other than the ones pre-made.*
 
-7) touch [file_name] : Creates a (txt *only yet*) file in the current working directory. *Note : None of the new files made with this command will be retained when the window/tab is refreshed, other than the ones pre-made.*
+7) touch [file_name] : Creates a (txt only *yet*) file in the current working directory. This command automatically adds `.txt` extension to the file name if not in the input. *Note : None of the new files made with this command will be retained when the window/tab is refreshed, other than the ones pre-made.*
+
+8) ssh [address] : Logs in to a user at a different host with the address in the form Username@Host. Default landing directory is the home directory for the user. *Note : None of the new users made with this command will be retained when the window/tab is refreshed, other than the ones pre-made.*
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Test User credentials :
-1) Username : test_user1
-2) Password : testpassone
+Test User(s) credentials :
+Host, Username, Password
+1) localhost, test_user1, testpassone
+2) host1, test_user2, testpasstwo
