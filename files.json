@@ -1,6 +1,12 @@
+test_user1@localhost
 {
 "/test_user1":["/test_user1/subdir1","/test_user1/subdir2","/test_user1/readme.txt",{"readme.txt":"Hello! This is the first text file!"}],
 "/test_user1/subdir1":["/test_user1/subdir1/readme2.txt","/test_user1/subdir1/puzzle.txt",{"readme2.txt":"Hello! This is the second text file!","puzzle.txt":"This is where you will get a puzzle to solve!"}],
 "/test_user1/subdir2":["/test_user1/subdir2/nested","/test_user1/subdir2/test.txt",{"test.txt":"Hello! This is the test text file!"}],
 "/test_user1/subdir2/nested":["/test_user1/subdir2/nested/puzzle2.txt",{"puzzle2.txt":"This is another file where you can find a puzzle"}]
+}
+test_user2@host1
+{
+"/test_user2":["/test_user2/subdir4","/test_user2/readme.txt",{"readme.txt":"Hello! This is the first text file of the second test user!"}],
+"/test_user2/subdir4":["/test_user2/subdir4/readme2.txt",{"readme.txt":"Hello! This is the second text file of the second test user!"}]
 }
