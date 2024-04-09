@@ -6,3 +6,4 @@ const file_not_found = "0E4 : The requested file was not found in the current di
 const dir_not_found = "0E5 : The requested directory/subdirectory was not found."
 const dir_exists = "0E6 : The directory already exists."
 const file_exists = "0E7 : THe file already exists!"
+const host_not_found = "0E8 : The host was not found!"
