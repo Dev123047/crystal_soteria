@@ -38,6 +38,10 @@
             var out1 = [];
             var cwd = '';
             var dict = {};
+            var host = "localhost";
+            var prompt_end = "$"
+            var prompt1 = () => current_username+"@"+host+": "+cwd+prompt_end;
+            var initalize = false;
             function disableRightClick() {  
                 return false; 
             }
@@ -70,9 +74,9 @@
                     return false;
                 }
             });
-            $('body').terminal({
-                initialize: async function(){
-                    await this.echo("[[g; blue; black]Initializing] CrystalSoteriaOS...",{typing: true, delay: 50});
+            var term = $('body').terminal({
+                initialize: function(){
+                    /*await this.echo("[[g; blue; black]Initializing] CrystalSoteria...",{typing: true, delay: 50});
                     await this.echo("[[g; blue; black]Initializing] endcrypt...",{typing: true, delay: 50});
                     await this.echo("[[g; blue; black]Initializing] secure_login...",{typing: true, delay: 50});
                     await this.echo("[[g; blue; black]Initializing] errors...",{typing: true, delay: 50});
@@ -80,24 +84,27 @@
                     await this.echo("[[g; blue; black]Initializing] file_access...",{typing: true, delay: 50});
                     await this.echo("Booting...",{typing: true, delay: 50});
                     await this.echo("[[g; black; purple]#########################]",{typing: true, delay: 75});
-                    await this.echo("[[g; blue; black;]Boot complete! (You may now use the interface)]",{typing: true, delay: 50});
+                    await this.echo("[[g; blue; black;]Boot complete! (You may now use the interface)]",{typing: true, delay: 50});*/
+                    initalize = true;
+                    term.set_prompt(prompt1);
                 },
                 su: async function(user) {
-                    if (user === current_username) {
+                    if (host+"_"+user === host+"_"+current_username) {
                         this.echo('Logged in as same user : '+current_username);
-                    } else if (user in hashed) {
+                    } else if ((host+"_"+user) in hashed) {
                         current_username = user
                         this.echo(user_found);
                         this.read("Enter password : ").then(input_password => {
-                        if (CryptoJS.PBKDF2(input_password, salt, {keySize: 512 / 32,iterations: 1000}).toString(CryptoJS.enc.Base64) === hashed[user]) {
+                        if (CryptoJS.PBKDF2(input_password, salt, {keySize: 512 / 32,iterations: 1000}).toString(CryptoJS.enc.Base64) === hashed[host+"_"+user]) {
                             this.echo(password_matched);
                             current_password = input_password;
-                            current_data = JSON.parse(decryptAES(window[current_username],current_password));
+                            current_data = JSON.parse(decryptAES(window[host+"_"+current_username],current_password));
                             cwd = "/"+current_username;
                             input_password = '';
                             input_username = '';
                             this.echo(logged_in);
                         } else {
+                            current_username = ''
                             this.error(password_incorret);
                             this.error(login_aborted);
                         }})
@@ -123,6 +130,7 @@
                             }
                         }
                     } catch(err) {
+                        console.log(err)
                         this.error(not_authorized)
                     }
                 },
@@ -191,13 +199,14 @@
                             var keys = Object.keys(data)
                             var values = Object.values(data)
                             keys.splice(keys.indexOf(cwd)+1,0,(cwd+"/"+dname))
-                            values.splice(keys.indexOf(cwd)+1,0,[])
+                            values.splice(keys.indexOf(cwd)+1,0,[{}])
                             data = toDictionary(keys,values)
-                            window[current_username] = encryptAES(JSON.stringify(data),current_password)
-                            current_data = JSON.parse(decryptAES(window[current_username],current_password))
+                            window[host+"_"+current_username] = encryptAES(JSON.stringify(data),current_password)
+                            current_data = JSON.parse(decryptAES(window[host+"_"+current_username],current_password))
                             this.echo(dir_made)
                         }
                     } catch(err) {
+                        console.log(err)
                         this.error(not_authorized)
                     }
                 },
@@ -211,8 +220,8 @@
                                 data[cwd].splice(-2,0,(cwd+"/"+fname))
                                 this.read("Enter file contents : ").then(contents => {
                                     data[cwd].slice(-1)[0][fname] = contents
-                                    window[current_username] = encryptAES(JSON.stringify(data),current_password)
-                                    current_data = JSON.parse(decryptAES(window[current_username],current_password))
+                                    window[host+"_"+current_username] = encryptAES(JSON.stringify(data),current_password)
+                                    current_data = JSON.parse(decryptAES(window[host+"_"+current_username],current_password))
                                     this.echo(file_made)
                                 });
                             }
@@ -225,8 +234,8 @@
                                 data[cwd].splice(-2,0,(cwd+"/"+fname))
                                 this.read("Enter file contents : ").then(contents => {
                                     data[cwd].slice(-1)[0][fname] = contents
-                                    window[current_username] = encryptAES(JSON.stringify(data),current_password)
-                                    current_data = JSON.parse(decryptAES(window[current_username],current_password))
+                                    window[host+"_"+current_username] = encryptAES(JSON.stringify(data),current_password)
+                                    current_data = JSON.parse(decryptAES(window[host+"_"+current_username],current_password))
                                     this.echo(file_made)
                                 });
                             }
@@ -235,9 +244,58 @@
                         console.log(err)
                         this.error(not_authorized)
                     }
+                },
+                ssh: function(address) {
+                    try {
+                        s_address = [address.slice(0,address.indexOf("@")),address.slice(address.indexOf("@")+1)]
+                        if (address != current_username+"@"+host) {
+                            if (hosts.includes(s_address[1])) {
+                                this.echo(host_found)
+                                new_address = s_address[1]+'_'+s_address[0]
+                                if (new_address in hashed) {
+                                    this.echo(user_found);
+                                    this.read("Enter password : ").then(input_password => {
+                                    if (CryptoJS.PBKDF2(input_password, salt, {keySize: 512 / 32,iterations: 1000}).toString(CryptoJS.enc.Base64) === hashed[new_address]) {
+                                        this.echo(password_matched);
+                                        host = s_address[1]
+                                        current_username = s_address[0]
+                                        current_password = input_password;
+                                        current_data = JSON.parse(decryptAES(window[host+"_"+current_username],current_password));
+                                        cwd = "/"+current_username;
+                                        input_password = '';
+                                        input_username = '';
+                                        this.echo(logged_in);
+                                    } else {
+                                        this.error(password_incorret);
+                                        this.error(login_aborted);
+                                    }})
+                                } else {
+                                    this.error(user_not_found)
+                                }
+                            } else {
+                                this.error(host_not_found)
+                            }      
+                        } else {
+                            this.error('Logged in as same user : '+host+"@"+current_username)
+                        }
+                    } catch(err) {
+                        console.log(err)
+                        this.error(not_authorized)
+                    }
                 }
-            },{
-                greetings: "Press ENTER to continue..."
+            }, {
+                completion: true,
+                keymap: {
+                    ENTER: function(e, original) {
+                    var was_initalize = this.get_command().match(/^\s*initialize\s*$/);
+                        if (!initalize && !was_initalize) {
+                            alert('Enter command "initialize".')
+                        } else {
+                            original()
+                        }
+                    }
+                },
+                greetings: "Welcome to Crystal Soteria"
             });
         </script>
     </body>
