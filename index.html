@@ -75,7 +75,7 @@
                 }
             });
             var term = $('body').terminal({
-                initialize: function(){
+                initialize: async function(){
                     await this.echo("[[g; blue; black]Initializing] CrystalSoteria...",{typing: true, delay: 50});
                     await this.echo("[[g; blue; black]Initializing] endcrypt...",{typing: true, delay: 50});
                     await this.echo("[[g; blue; black]Initializing] secure_login...",{typing: true, delay: 50});
