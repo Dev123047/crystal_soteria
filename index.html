@@ -106,6 +106,8 @@
                             this.echo(logged_in);
                             await this.echo("NOTE : If this is your first time using this interface use the command 'ls al' to get the list of all the files and folders and subfolders present in the user.",{typing: true, delay: 50});
                             await this.echo("After getting the list of files, if you wish to read the contents of a particular file, use the command 'cat file_name_with_extension'.",{typing: true, delay: 50});
+                            await this.echo("If you want to enter a folder use the command 'cd folder_name'. To get back to the parent folder use 'cd ..'. For your ease, your current folder in visible to you at all times.",{typing: true, delay: 50});
+                            await this.echo("FOR COMPLETE BEGINNERS : To use a command enter the command and hit ENTER on your keyboard.",{typing: true, delay: 50});
                         } else {
                             current_username = ''
                             this.error(password_incorret);
