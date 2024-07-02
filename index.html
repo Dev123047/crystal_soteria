@@ -76,7 +76,7 @@
             });
             var term = $('body').terminal({
                 initialize: function(){
-                    /*await this.echo("[[g; blue; black]Initializing] CrystalSoteria...",{typing: true, delay: 50});
+                    await this.echo("[[g; blue; black]Initializing] CrystalSoteria...",{typing: true, delay: 50});
                     await this.echo("[[g; blue; black]Initializing] endcrypt...",{typing: true, delay: 50});
                     await this.echo("[[g; blue; black]Initializing] secure_login...",{typing: true, delay: 50});
                     await this.echo("[[g; blue; black]Initializing] errors...",{typing: true, delay: 50});
@@ -84,7 +84,8 @@
                     await this.echo("[[g; blue; black]Initializing] file_access...",{typing: true, delay: 50});
                     await this.echo("Booting...",{typing: true, delay: 50});
                     await this.echo("[[g; black; purple]#########################]",{typing: true, delay: 75});
-                    await this.echo("[[g; blue; black;]Boot complete! (You may now use the interface)]",{typing: true, delay: 50});*/
+                    await this.echo("[[g; blue; black;]Boot complete! (You may now use the interface)]",{typing: true, delay: 50});
+                    await this.echo("NOTE : If you already have a user then use the command 'su username'.",{typing: true, delay: 50});
                     initalize = true;
                     term.set_prompt(prompt1);
                 },
@@ -103,6 +104,8 @@
                             input_password = '';
                             input_username = '';
                             this.echo(logged_in);
+                            await this.echo("NOTE : If this is your first time using this interface use the command 'ls al' to get the list of all the files and folders and subfolders present in the user.",{typing: true, delay: 50});
+                            await this.echo("After getting the list of files, if you wish to read the contents of a particular file, use the command 'cat file_name_with_extension'.",{typing: true, delay: 50});
                         } else {
                             current_username = ''
                             this.error(password_incorret);
