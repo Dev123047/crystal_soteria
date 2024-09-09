@@ -13,7 +13,7 @@
         <script src="antierrors.js" defer></script>
         <script src ="user_data.js" defer></script>
         <script src ="secure_login.js" defer></script>
-        <script src ="file_access.js" defer></script>
+        
     </head>
     <body oncontextmenu="return disableRightClick()">
         <style>
@@ -46,15 +46,28 @@
                 return false; 
             }
             function lsv2(d=cwd) {
-                const out0 = current_data[d];
+                const out0 = JSON.parse(decryptAES(window[host+"_"+current_username],current_password))[d];
                 for(let i=0; i<(out0.length-1); i++) {
                     x = out0[i]
                     out1.push(x)
-                    if (x in current_data) {
+                    if (x in JSON.parse(decryptAES(window[host+"_"+current_username],current_password))) {
                         lsv2(d=x)
                     }
                 }
                 return
+            }
+            function ls(arg = "al") {
+                out0 = current_data[cwd]
+                out1 = []
+                if (arg === "td") {
+                    for(let i=0; i<(out0.length)-1; i++) {
+                        out1.push(out0[i]);
+                    }
+                    return out1
+                } else if (arg == "al") {
+                    lsv2()
+                    return out1
+                }
             }
             function enlist(arrobj) {
                 for(let i=0;i<arrobj.length;i++) {
@@ -101,7 +114,7 @@
                         if (CryptoJS.PBKDF2(input_password, salt, {keySize: 512 / 32,iterations: 1000}).toString(CryptoJS.enc.Base64) === hashed[host+"_"+user]) {
                             this.echo(password_matched);
                             current_password = input_password;
-                            current_data = JSON.parse(decryptAES(window[host+"_"+current_username],current_password));
+                            //current_data = JSON.parse(decryptAES(window[host+"_"+current_username],current_password));
                             cwd = "/"+current_username;
                             input_password = '';
                             input_username = '';
@@ -119,7 +132,7 @@
                 },
                 ls: async function(arg) {
                     try {
-                        out0 = current_data[cwd]
+                        out0 = JSON.parse(decryptAES(window[host+"_"+current_username],current_password))[cwd]
                         out1 = []
                         if (arg === "td") {
                             for(let i=0; i<(out0.length)-1; i++) {
@@ -142,9 +155,9 @@
                 cd: function(dir) {
                     try {
                         if (dir === "..") {
-                            const dirs = Object.keys(current_data)
+                            const dirs = Object.keys(JSON.parse(decryptAES(window[host+"_"+current_username],current_password)))
                             for (let i=0; i<(dirs.length);i++) {
-                                if (current_data[dirs[i]].includes(cwd)){
+                                if (JSON.parse(decryptAES(window[host+"_"+current_username],current_password))[dirs[i]].includes(cwd)){
                                     cwd = dirs[i]
                                     this.echo(dir_changed)
                                 } else {
@@ -152,7 +165,7 @@
                                 }
                             }
                         } else if(dir === "") {
-                            cwd = Object.keys(current_data)[0]
+                            cwd = Object.keys(JSON.parse(decryptAES(window[host+"_"+current_username],current_password)))[0]
                         } else {
                             requested_dir = cwd+"/"+dir
                             if (ls().includes(requested_dir)) {
@@ -178,11 +191,11 @@
                 },
                 cat: function(file) {
                     try {
-                        if (file in current_data[cwd][(current_data[cwd].length)-1]) {
+                        if (file in JSON.parse(decryptAES(window[host+"_"+current_username],current_password))[cwd][(JSON.parse(decryptAES(window[host+"_"+current_username],current_password))[cwd].length)-1]) {
                             this.echo(file_found)
-                            if(current_data[cwd][(current_data[cwd].length)-1][file] != '') {
+                            if(JSON.parse(decryptAES(window[host+"_"+current_username],current_password))[cwd][(JSON.parse(decryptAES(window[host+"_"+current_username],current_password))[cwd].length)-1][file] != '') {
                                 this.echo('[[g; black; yellow;]'+file+']')
-                                this.echo(current_data[cwd][(current_data[cwd].length)-1][file])
+                                this.echo(JSON.parse(decryptAES(window[host+"_"+current_username],current_password))[cwd][(JSON.parse(decryptAES(window[host+"_"+current_username],current_password))[cwd].length)-1][file])
                             } else {
                                 this.error(not_authorized)
                             }
@@ -196,10 +209,10 @@
                 },
                 mkdir: function(dname) {
                     try {
-                        if (current_data[cwd].includes(cwd+"/"+dname)) {
+                        if (JSON.parse(decryptAES(window[host+"_"+current_username],current_password))[cwd].includes(cwd+"/"+dname)) {
                             this.error(dir_exists)
                         } else {
-                            data = current_data
+                            data = JSON.parse(decryptAES(window[host+"_"+current_username],current_password))
                             data[cwd].splice(0,0,(cwd+"/"+dname))
                             var keys = Object.keys(data)
                             var values = Object.values(data)
@@ -207,7 +220,7 @@
                             values.splice(keys.indexOf(cwd)+1,0,[{}])
                             data = toDictionary(keys,values)
                             window[host+"_"+current_username] = encryptAES(JSON.stringify(data),current_password)
-                            current_data = JSON.parse(decryptAES(window[host+"_"+current_username],current_password))
+                            JSON.parse(decryptAES(window[host+"_"+current_username],current_password)) = JSON.parse(decryptAES(window[host+"_"+current_username],current_password))
                             this.echo(dir_made)
                         }
                     } catch(err) {
@@ -218,29 +231,29 @@
                 touch: function(fname) {
                     try {
                         if (fname.slice(-4) === '.txt') {
-                            if (Object.keys(current_data[cwd].slice(-1)[0]).includes(fname)) {
+                            if (Object.keys(JSON.parse(decryptAES(window[host+"_"+current_username],current_password))[cwd].slice(-1)[0]).includes(fname)) {
                                 this.error(file_exists)
                             } else {
-                                data = current_data
+                                data = JSON.parse(decryptAES(window[host+"_"+current_username],current_password))
                                 data[cwd].splice(-2,0,(cwd+"/"+fname))
                                 this.read("Enter file contents : ").then(contents => {
                                     data[cwd].slice(-1)[0][fname] = contents
                                     window[host+"_"+current_username] = encryptAES(JSON.stringify(data),current_password)
-                                    current_data = JSON.parse(decryptAES(window[host+"_"+current_username],current_password))
+                                    JSON.parse(decryptAES(window[host+"_"+current_username],current_password)) = JSON.parse(decryptAES(window[host+"_"+current_username],current_password))
                                     this.echo(file_made)
                                 });
                             }
                         } else {
                             fname = fname+".txt"
-                            if (Object.keys(current_data[cwd].slice(-1)[0]).includes(fname)) {
+                            if (Object.keys(JSON.parse(decryptAES(window[host+"_"+current_username],current_password))[cwd].slice(-1)[0]).includes(fname)) {
                                 this.error(file_exists)
                             } else {
-                                data = current_data
+                                data = JSON.parse(decryptAES(window[host+"_"+current_username],current_password))
                                 data[cwd].splice(-2,0,(cwd+"/"+fname))
                                 this.read("Enter file contents : ").then(contents => {
                                     data[cwd].slice(-1)[0][fname] = contents
                                     window[host+"_"+current_username] = encryptAES(JSON.stringify(data),current_password)
-                                    current_data = JSON.parse(decryptAES(window[host+"_"+current_username],current_password))
+                                    JSON.parse(decryptAES(window[host+"_"+current_username],current_password)) = JSON.parse(decryptAES(window[host+"_"+current_username],current_password))
                                     this.echo(file_made)
                                 });
                             }
@@ -265,7 +278,7 @@
                                         host = s_address[1]
                                         current_username = s_address[0]
                                         current_password = input_password;
-                                        current_data = JSON.parse(decryptAES(window[host+"_"+current_username],current_password));
+                                        //current_data = JSON.parse(decryptAES(window[host+"_"+current_username],current_password));
                                         cwd = "/"+current_username;
                                         input_password = '';
                                         input_username = '';
